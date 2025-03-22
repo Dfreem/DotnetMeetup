@@ -1,0 +1,20 @@
+﻿// _variables.scss includes imports for bs variables and functions
+@import 'variables';
+
+// Add map overrides here
+$theme-colors: map-merge-multiple($theme-colors, ("primary":$primary, "secondary": $secondary, "tertiary": $tertiary));
+
+@import "../lib/bootstrap/scss/maps";
+@import "../lib/bootstrap/scss/mixins";
+@import "../lib/bootstrap/scss/root";
+
+@import "../lib/bootstrap/scss/utilities";
+@import "../lib/bootstrap/scss/reboot";
+@import "../lib/bootstrap/scss/type";
+@import "../lib/bootstrap/scss/images";
+@import "../lib/bootstrap/scss/containers";
+@import "../lib/bootstrap/scss/grid";
+@import "../lib/bootstrap/scss/helpers";
+
+
+@import '../lib/bootstrap/scss/utilities/api';

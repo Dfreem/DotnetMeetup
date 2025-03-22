@@ -1,0 +1,11 @@
+﻿@use 'sass:color';
+
+// don't also import these in app.scss. just import this file
+@import '../lib/bootstrap/scss/functions';
+
+$primary: #880ded;
+$secondary: #ed880d;
+$tertiary: #909292;
+
+
+@import '../lib/bootstrap/scss/variables';
