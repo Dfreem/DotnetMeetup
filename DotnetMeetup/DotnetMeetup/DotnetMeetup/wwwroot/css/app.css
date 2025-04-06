@@ -4545,6 +4545,7 @@ font-roboto-italic {
   font-family: roboto;
   font-stretch: semi-expanded;
   border-bottom: 2px solid #6610f2;
+  box-shadow: 0px 1px 20px -1px #495057;
 }
 .navbar > .container-fluid, .navbar > .container-sm, .navbar > .container-md, .navbar > .container-lg, .navbar > .container-xl, .navbar > .container-xxl {
   container-type: size;
