@@ -1,11 +1,36 @@
-﻿@use 'sass:color';
+﻿
+$primary: #556b2f;
+$secondary: #7053D7;
+$tertiary: #f0e68c;
 
-// don't also import these in app.scss. just import this file
-@import '../lib/bootstrap/scss/functions';
+// NAVBAR
 
-$primary: #880ded;
-$secondary: #ed880d;
-$tertiary: #909292;
+$navbar-light-color: #{$indigo-100};
+$navbar-light-active-color: #{$yellow-300};
+//$navbar-light-hover-color:;
+//$navbar-light-disabled-color:;
+//$navbar-light-icon-color:;
+//$navbar-light-toggler-icon-bg:;
+//$navbar-light-toggler-border-color:;
+//$navbar-light-brand-color:;
+//$navbar-light-brand-hover-color:;
+
+$navbar-padding-y: 6px;
+$navbar-padding-x: .5rem;
+$navbar-nav-link-padding-x: .5rem;
+$navbar-nav-link-padding-y: 4px;
+$navbar-brand-font-size: 18pt;
+$navbar-border-color: #{$indigo-500};
+
+$nav-link-height: 1rem;
+//$navbar-brand-height:;
+//$navbar-brand-padding-y:;
+//$navbar-brand-margin-end:;
+//$navbar-toggler-padding-y:6px;
+//$navbar-toggler-padding-x:;
+//$navbar-toggler-font-size:;
+//$navbar-toggler-border-radius:;
+//$navbar-toggler-focus-width:;
+//$navbar-toggler-transition:;
 
 
-@import '../lib/bootstrap/scss/variables';

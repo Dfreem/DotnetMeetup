@@ -1,9 +1,26 @@
 using DotnetMeetup.Components;
 
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
+
+#region Logging
+
+// might not be necessary
+builder.Logging.AddSerilog();
+
+// just log to the console for now
+builder.Services.AddSerilog(config =>
+{
+    config.MinimumLevel.Information();
+    config.WriteTo.Console();
+});
+
+#endregion
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
 var app = builder.Build();

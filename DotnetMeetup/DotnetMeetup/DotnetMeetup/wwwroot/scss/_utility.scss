@@ -49,6 +49,10 @@
     .h-#{$i}-em {
         height: calc($i * 1%)
     }
+
+    .fs-#{calc($i * 2)} {
+        font-size: calc($i * 2pt);
+    }
 }
 
 .fit-width {
