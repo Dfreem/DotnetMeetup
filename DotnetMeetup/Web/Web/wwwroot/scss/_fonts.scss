@@ -1,0 +1,17 @@
+﻿@font-face {
+    font-family: 'roboto-italic';
+    src: url('../fonts/roboto-italic-variablefont_wdth,wght.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'roboto';
+    src: url('../fonts/roboto-variablefont_wdth,wght.ttf') format('truetype');
+}
+
+.font-roboto {
+    font-family: roboto;
+}
+
+font-roboto-italic {
+    font-family: roboto-italic;
+}

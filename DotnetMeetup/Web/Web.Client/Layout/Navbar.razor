@@ -1,0 +1,43 @@
+﻿<nav class="navbar navbar-expand-lg bg-secondary text-light">
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-toggler" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-toggler">
+            <a class="navbar-brand text-light" href="#">Dotnet Meetup HQ</a>
+
+            <div class="navbar-nav ms-auto me-3">
+
+                <div class="nav-item">
+                    <NavLink class="nav-link" Match="NavLinkMatch.All" href="/" ActiveClass="active">
+                        Home
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/events" ActiveClass="active">
+                        Events
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/shared-resources" ActiveClass="active">
+                        Resources
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/contribute" ActiveClass="active">
+                        Contribute
+                    </NavLink>
+                </div>
+                <div class="nav-item">
+                    <a class="nav-link" href="https://github.com/Dfreem/DotnetMeetup">
+                        Github
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+@code {
+
+}
