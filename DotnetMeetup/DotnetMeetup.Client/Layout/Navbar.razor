@@ -1,0 +1,76 @@
+﻿@using Microsoft.AspNetCore.Components.Routing
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager _nav
+
+<nav class="navbar navbar-expand-md bg-secondary text-light">
+    <div class="container-fluid">
+        <a class="navbar-brand text-light" href="#">Dotnet Meetup HQ</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dotnetToggler" aria-controls="dotnetToggler" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="dotnetToggler">
+
+        <div class="navbar-nav ms-md-auto me-md-3">
+
+            <div class="nav-item">
+                <NavLink class="nav-link" Match="NavLinkMatch.All" href="/" ActiveClass="active">
+                    Home
+                </NavLink>
+            </div>
+            <div class="nav-item">
+                <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/events" ActiveClass="active">
+                    Events
+                </NavLink>
+            </div>
+            <div class="nav-item">
+                <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/shared-resources" ActiveClass="active">
+                    Resources
+                </NavLink>
+            </div>
+            <div class="nav-item">
+                <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/forum" ActiveClass="active">
+                    Forum
+                </NavLink>
+            </div>
+            <div class="nav-item">
+                <NavLink class="nav-link" Match="NavLinkMatch.Prefix" href="/contribute" ActiveClass="active">
+                    Contribute
+                </NavLink>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="https://github.com/Dfreem/DotnetMeetup">
+                    Github
+                </a>
+            </div>
+
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col-auto ms-auto me-3">
+        <AuthorizeView>
+            <Authorized>
+                Hello <NavLink class="link-purple-200" href="Account/Manage/">@context.User.Identity?.Name</NavLink>
+                <NavLink class="link-purple-200" href="Account/logout">Log Out</NavLink>
+            </Authorized>
+            <NotAuthorized>
+                <NavLink class="link-purple-300" href="Account/Login">Log in</NavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
+</div>
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState>? AuthState { get; set; }
+
+
+    public void BeginLogOut()
+    {
+        _nav.NavigateToLogout("/Account/Logout");
+    }
+
+}
