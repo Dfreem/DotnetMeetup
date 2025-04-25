@@ -1,0 +1,69 @@
+﻿@using DotnetMeetup.Shared.Components.Base
+@using DotnetMeetup.Shared.Enums.UI
+@using DotnetMeetup.Shared.Extensions
+
+
+@inherits StyleableBaseComponent
+
+<div id="@Id" class="dropdown @Class" style="@Style" data-bs-display="@(Display.ToKabobCase())">
+    @if (UseAnchor)
+    {
+        <a class="@ButtonCssClass @BgColor?.ToBgColor() @(ShowToggleIcon ? "dropdown-toggle":"")" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            @DropdownButton
+        </a>
+    }
+    else
+    {
+        <button data-bs-auto-close="@(AutoCloseBehavior.ToKabobCase())" class="btn @ButtonCssClass @BgColor?.ToButtonColor() dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-target="#@Id" aria-expanded="false">
+            @DropdownButton
+        </button>
+    }
+    <div class="dropdown-menu @MenuCssClass" id="@Id">
+        @DropdownMenu
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public AutoClose AutoCloseBehavior { get; set; }
+    [Parameter]
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    /// <summary>
+    /// if true, the dropdown button is created using an anchor element. By default, a button element is used
+    /// </summary>
+    [Parameter]
+    public bool UseAnchor { get; set; }
+
+    [Parameter]
+    public bool ShowToggleIcon { get; set; }
+
+    [Parameter]
+    public DropdownDisplay Display { get; set; } = DropdownDisplay.Dynamic;
+
+    [Parameter]
+    public string? ButtonCssClass { get; set; }
+
+    [Parameter]
+    public string? MenuCssClass { get; set; }
+
+    [Parameter]
+    public RenderFragment? DropdownButton { get; set; }
+
+    [Parameter]
+    public RenderFragment? DropdownMenu { get; set; }
+
+    public enum DropdownDisplay
+    {
+        Dynamic,
+        Static
+    }
+
+    public enum AutoClose
+    {
+        True,
+        False,
+        Inside,
+        Outside
+    }
+}

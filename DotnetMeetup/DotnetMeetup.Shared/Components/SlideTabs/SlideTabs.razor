@@ -1,0 +1,28 @@
+﻿<CascadingValue Value="this">
+    <ul class="generic-slide-menu d-flex ps-0">
+        @Items
+    </ul>
+
+    @Content
+</CascadingValue>
+
+@code {
+
+    [Parameter]
+    public string SelectedTab { get; set; }
+
+    [Parameter]
+    public EventCallback<string> SelectedTabChanged { get; set; }
+
+    [Parameter]
+    public RenderFragment Items { get; set; }
+
+    [Parameter]
+    public RenderFragment Content { get; set; }
+
+    public async Task SelectTabAsync(string tab)
+    {
+        SelectedTab = tab;
+        await SelectedTabChanged.InvokeAsync(tab);
+    }
+}

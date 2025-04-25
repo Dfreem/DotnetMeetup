@@ -1,9 +1,20 @@
 ﻿@page "/"
+@using DotnetMeetup.Shared.Components.Calendar
+@using DotnetMeetup.Shared.Components.CalendarPicker
+@using DotnetMeetup.Shared.Enums.UI
 @using Microsoft.AspNetCore.Authorization
-@attribute [Authorize]
+@using Microsoft.AspNetCore.Components.Web
+@attribute [StreamRendering]
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="front-row">
+    <div class="d-flex mx-0 w-100 h-100">
+        <Calendar @bind-SelectedDate="SelectedDate" Class="ms-sm-auto me-sm-5 mt-sm-auto mb-sm-5" />
+    </div>
+</div>
 
-Welcome to your new app.
+@code {
+    public CalendarDay SelectedDate { get; set; } = new() { Date = DateTime.Today, Colors = CalendarDayColor.Selected };
+}
+

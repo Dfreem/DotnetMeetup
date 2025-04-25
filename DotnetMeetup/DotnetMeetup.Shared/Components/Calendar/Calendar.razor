@@ -1,0 +1,207 @@
+﻿@using DotnetMeetup.Shared.Components.CalendarPicker
+@inherits StyleableBaseComponent
+
+<div class="calendar @Class">
+    <div class="container-fluid p-0">
+        <div class="row calendar-header mb-2">
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Sun </div>
+            </div>
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Mon </div>
+            </div>
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Tue </div>
+            </div>
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Wed </div>
+            </div>
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Thu </div>
+            </div>
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Fri </div>
+            </div>
+            <div class="fw-bolder col">
+                <div class="calendar-header-cell"> Sat </div>
+            </div>
+        </div>
+        <div class="container-fluid calendar-body">
+
+            @foreach (var week in Weeks)
+            {
+                <div class="row mb-2">
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[0].Colors.ToCss()">
+                            @week.Days[0].Date.Day
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[1].Colors.ToCss()">
+                            @week.Days[1].Date.Day
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[2].Colors.ToCss()">
+                            @week.Days[2].Date.Day
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[3].Colors.ToCss()">
+                            @week.Days[3].Date.Day
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[4].Colors.ToCss()">
+                            @week.Days[4].Date.Day
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[5].Colors.ToCss()">
+                            @week.Days[5].Date.Day
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="calendar-day" style="@week.Days[6].Colors.ToCss()">
+                            @week.Days[6].Date.Day
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+
+    #region Parameters
+    [Parameter]
+    public CalendarDay? SelectedDate { get; set; }
+
+    [Parameter]
+    public EventCallback<CalendarDay> SelectedDateChanged { get; set; }
+
+    #endregion
+
+    #region Public
+    public List<CalendarWeek> Weeks { get; set; } = [];
+
+    public List<SelectListItem<DateTime>> Months { get; set; } = new();
+
+    public List<SelectListItem<int>> Years { get; set; } = [];
+
+    public struct SelectListItem<T>
+    {
+        public string Text { get; set; }
+        public T Value { get; set; }
+    }
+
+    public int SelectedYear { get; set; }
+
+    public DateTime SelectedMonth { get; set; }
+    #endregion
+
+    protected override async Task OnInitializedAsync()
+    {
+        // fill month select
+        for (int i = 1; i < 12; i++)
+        {
+            DateTime currentMonth = new(DateTime.Today.Year, i, 1);
+            SelectListItem<DateTime> monthItem = new() { Text = currentMonth.ToString("MMM"), Value = currentMonth };
+            Months.Add(monthItem);
+        }
+
+        // fill year select
+        int currentYear = 2000;
+        for (int i = 1970; i < 2050; i++)
+        {
+            Years.Add(new() { Text = $"{currentYear}", Value = currentYear });
+            currentYear += 1;
+        }
+        SelectedDate ??= new() { Date = DateTime.Today, Colors = CalendarDayColor.Selected };
+        SelectedYear = SelectedDate.Date.Year;
+        SelectedMonth = SelectedDate.Date;
+        FillCalendar(SelectedDate.Date);
+        await base.OnInitializedAsync();
+    }
+
+    private void FillCalendar(DateTime monthDate)
+    {
+        int daysInMonth = DateTime.DaysInMonth(monthDate.Year, monthDate.Month);
+        DateTime firstOfMonth = new(monthDate.Year, monthDate.Month, 1);
+        var offset = DayOfWeek.Sunday - firstOfMonth.DayOfWeek;
+        daysInMonth -= offset;
+        DateTime current = firstOfMonth.AddDays(offset);
+
+        CalendarWeek week = new();
+        Weeks.Clear();
+
+        for (int i = 0; i < daysInMonth; i++)
+        {
+            double div = i % 7;
+            if (i == 0 || div == 0)
+            {
+                week = new();
+                Weeks.Add(week);
+            }
+            CalendarDay day = new()
+                {
+                    Date = current
+                };
+
+            if (SelectedDate is not null && SelectedDate.HasDate && SelectedDate.Date == current)
+            {
+                day.Colors |= CalendarDayColor.Selected;
+            }
+            if (day.Date.Date == DateTime.Today.Date)
+            {
+                day.Colors |= CalendarDayColor.Green;
+            }
+            week.Days = week.Days.Append(day).ToArray();
+            current = current.AddDays(1);
+        }
+        int weekLength = Weeks[^1].Days.Length;
+        int missingDates = 7 - weekLength;
+        for (int i = weekLength; i < 7; i++)
+        {
+            Weeks[^1].Days = Weeks[^1].Days.Append(new() { Date = current }).ToArray();
+            current = current.AddDays(1);
+        }
+    }
+
+    private async Task SelectDateAsync(CalendarDay selected)
+    {
+        // remove selected color from current selected day
+        SelectedDate!.Colors ^= CalendarDayColor.Selected;
+
+
+        // add selected color to newly selected day
+        selected.Colors |= CalendarDayColor.Selected;
+        SelectedDate = selected;
+        await SelectedDateChanged.InvokeAsync(SelectedDate);
+        FillCalendar(SelectedDate.Date);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void SelectYear(ChangeEventArgs args)
+    {
+        SelectedYear = Convert.ToInt32(args.Value);
+        DateTime yearDate = new(SelectedYear, SelectedMonth.Month, 1);
+        FillCalendar(yearDate);
+    }
+
+    private void SelectMonth(ChangeEventArgs args)
+    {
+        string dateString = args.Value?.ToString() ?? "";
+        DateTime monthDate = DateTime.Parse(dateString);
+        SelectedMonth = new(SelectedYear, monthDate.Month, 1);
+        FillCalendar(SelectedMonth);
+    }
+
+    private void IncDecMonth(int incriment)
+    {
+        SelectedMonth = SelectedMonth.AddMonths(incriment);
+        FillCalendar(SelectedMonth);
+    }
+}

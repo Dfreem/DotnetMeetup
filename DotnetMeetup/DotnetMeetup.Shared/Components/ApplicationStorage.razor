@@ -1,0 +1,96 @@
+﻿@using System.Text.Json
+@using Microsoft.Extensions.Logging
+
+@inject ILogger<ApplicationStorage> _logger
+@inject IJSRuntime _js
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    public Dictionary<string, dynamic> DynamicStorage { get; set; } = [];
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private IJSObjectReference? _module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            try
+            {
+
+                _module = await _js.InvokeAsync<IJSObjectReference>("import", "./_content/ConnectMarket.Shared/Components/ApplicationStorage.razor.js");
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError("an error occurred while initializng ApplicationStorage\n{ex}", ex);
+            }
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async Task SetValue(string key, object value)
+    {
+        if (_module is null)
+            return;
+
+        try
+        {
+            var jsonValue = JsonSerializer.Serialize(value);
+            await _module!.InvokeVoidAsync("saveToSession", key, jsonValue);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("{ex}", ex);
+        }
+    }
+
+    public async Task<T?> GetValue<T>(string key)
+    {
+        if (_module is null) return default(T);
+
+        try
+        {
+            var jsonValue = await _module!.InvokeAsync<string>("getFromSession", key);
+            if (jsonValue is null)
+            {
+                _logger.LogWarning("Unable to find object with key {key}", key);
+                return default(T);
+            }
+            return JsonSerializer.Deserialize<T>(jsonValue);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("{ex}", ex);
+            return default(T);
+        }
+    }
+
+    public async Task ClearSession()
+    {
+        if (_module is null)
+            return;
+
+        try
+        {
+            await _module.InvokeVoidAsync("clearSession");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("[ApplicationStorage line 74]\n {ex}", ex);
+        }
+    }
+
+    public async Task RemoveFromSession(string key)
+    {
+        if (_module is null)
+            return;
+        await _module.InvokeVoidAsync("removeFromSession", key);
+
+    }
+
+}

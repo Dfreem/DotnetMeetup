@@ -1,0 +1,17 @@
+﻿@if (Active)
+{
+    @ChildContent
+}
+
+@code {
+    [CascadingParameter]
+    public SlideTabs Tabs { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool Active => Tabs.SelectedTab == Name;
+}

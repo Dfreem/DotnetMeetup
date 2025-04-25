@@ -1,0 +1,25 @@
+﻿@using ConnectMarket.Shared
+@using DotnetMeetup.Shared.Components.Modals
+@inherits StyleableBaseComponent
+
+<Modal id="@ModalNames.LOADING_SPINNER" Class="@(Class + " loading-spinner")" StaticBackdrop>
+    <ModalBody>
+        <div class="container loading-spinner-body">
+            <div class="row">
+                <div class="col text-center">
+                    <h2>
+                        Loading...
+                    </h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col text-center">
+                    <div class="spinner-border text-primary @Class" style="width: 2rem; height: 2rem;" role="status">
+                        <h1 class="visually-hidden">Loading...</h1>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </ModalBody>
+</Modal>

@@ -1,0 +1,32 @@
+﻿@use 'sass:map';
+@use 'sass:color';
+@use '../variables';
+@use '../options';
+@import '../../lib/bootstrap/scss/variables';
+
+.front-row {
+    --front-row-bg: #{$front-row-bg};
+    --front-row-border-color: #{$front-row-border-color};
+    background-color: var(--front-row-bg);
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    background-size: inherit;
+
+    //height: 15em;
+
+    @if $enable-front-row-image {
+        background-image: url('../../images/forrest_mountains.png');
+        background-position: 0em 91%;
+        background-blend-mode: lighten;
+    }
+
+    @media(min-width: map.get($grid-breakpoints, "sm")) {
+        background-size: auto;
+        padding-block: 0;
+        height: 25em;
+    }
+    //@include gradient-bg($front-row-bg);
+    /*border-bottom: 2px solid var(--front-row-border-color);*/
+}

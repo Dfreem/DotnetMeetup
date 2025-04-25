@@ -1,0 +1,40 @@
+﻿@using DotnetMeetup.Shared.Components.Base
+@using DotnetMeetup.Shared.Enums.UI
+
+
+@inherits StyleableBaseComponent
+<li>
+    <a @onclick='ClickButton' class="dropdown-item @ActiveClass() @Class @BgColor?.ToBgColor()">
+        @ChildContent
+    </a>
+</li>
+
+@code {
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public bool Active { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> ActiveChanged { get; set; }
+
+    [Parameter]
+    public string Id { get; set; } = Guid.NewGuid().ToString();
+
+    private string ActiveClass()
+    {
+        return Active ? "active" : "";
+    }
+
+    [Parameter]
+    public EventCallback<string> Clicked { get; set; }
+
+    private async Task ClickButton()
+    {
+        Active = !Active;
+        await ActiveChanged.InvokeAsync(Active);
+        await Clicked.InvokeAsync(Id);
+    }
+
+}
