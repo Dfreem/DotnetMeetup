@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\DotnetMeetup.Client\DotnetMeetup.Client.csproj" />
     <ProjectReference Include="..\DotnetMeetup.Shared\DotnetMeetup.Shared.csproj" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.4" />
@@ -18,8 +22,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\scss\pages\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\DotnetMeetup.Shared\Components\_Imports.razor" Link="_Imports.razor" />
+    <None Include="compilerconfig.json" />
+    <None Include="wwwroot\scss\_options.scss" />
   </ItemGroup>
 
 </Project>

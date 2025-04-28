@@ -1,0 +1,86 @@
+﻿@using System.Timers
+@using DotnetMeetup.Shared.Enums.UI
+@using DotnetMeetup.Shared.Services.ToastService
+@inject IToastService _toast
+
+<div class="@ToastClass @ToastLocation.ToCssClass() toastr">
+    @if (ShowHeader)
+    {
+        <div class="toastr-header">
+            <a class="ms-auto close p-0" aria-label="Close" @onclick='OffToast'><i class="bi bi-x fs-3 p-0"></i></a>
+        </div>
+    }
+    <div class="toastr-body text-center py-2">
+        @if (Markup)
+        {
+            <div>
+                @((MarkupString)ToastMessage)
+            </div>
+        }
+        else
+        {
+            <div>
+                @ToastMessage
+            </div>
+        }
+
+    </div>
+</div>
+
+@code {
+
+    public string ToastMessage { get; set; } = "";
+
+    public string ToastClass { get; set; } = "hide-toast";
+
+    [Parameter]
+    public bool ShowHeader { get; set; }
+
+    [Parameter]
+    public ToastLocation ToastLocation { get; set; }
+
+    public BootstrapColor Color { get; set; }
+    public bool Markup { get; set; }
+
+    /// <summary>
+    /// the time (ms) a toast notification should be visible for. Default 4000.
+    /// </summary>
+    [Parameter]
+    public int ToastDuration { get; set; } = 4000;
+
+    System.Timers.Timer _timer = default!;
+
+
+    public void OnToast(Object? sender, ToastEventArgs args)
+    {
+        // options sent via the event args will override configuration values
+        _timer = new();
+        _timer.Interval = args.Duration ?? ToastDuration;
+
+        ToastClass = args.CssClass;
+        ToastMessage = args.Message;
+        ToastLocation = args.Location;
+        Markup = args.Markup;
+
+        StateHasChanged();
+        _timer.Elapsed += async (sender, args) =>
+        {
+            _timer.Stop();
+            await OffToast();
+        };
+        _timer.Start();
+    }
+
+    public async Task OffToast()
+    {
+        ToastClass = "hide-toast";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _toast.ToastEvent += OnToast;
+
+        await base.OnInitializedAsync();
+    }
+}

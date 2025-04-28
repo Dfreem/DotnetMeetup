@@ -1,6 +1,7 @@
 using DotnetMeetup.Components;
 using DotnetMeetup.Components.Account;
 using DotnetMeetup.Data;
+using DotnetMeetup.Shared.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddCommonServices();
 
 var app = builder.Build();
 

@@ -1,0 +1,60 @@
+﻿
+
+@using DotnetMeetup.Shared.Components.Base
+@using DotnetMeetup.Shared.Enums.UI
+@using System.Drawing
+
+@inherits StyleableBaseComponent
+
+<div class="card @Class @(BgColor is not null && BgColor != BootstrapColor.Default ? BgColor?.ToBgColor():"")" style="@Style">
+    @if (!string.IsNullOrEmpty(ImageUrl))
+    {
+        if (ImageType == CardImageType.CardCapTop)
+        {
+            <img class="card-image-top" src="@ImageUrl" />
+        }
+        else if (ImageType == CardImageType.CardImageOverlay)
+        {
+            <img class="card-image-overlay" src="@ImageUrl" />
+        }
+
+    }
+    @if (CardHeader is not null)
+    {
+        <div class="card-header">
+            @CardHeader
+        </div>
+    }
+    @ChildContent
+    @if (CardFooter is not null)
+    {
+        <div class="card-footer">
+            @CardFooter
+        </div>
+    }
+    @if (ImageType == CardImageType.CardCapBottom && !string.IsNullOrEmpty(ImageUrl))
+    {
+        <img class="card-img-bottom" src="@ImageUrl" />
+    }
+</div>
+
+@code {
+    [Parameter]
+    public RenderFragment? CardHeader { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public RenderFragment? CardFooter { get; set; }
+
+    [Parameter]
+    public RenderFragment? CardTitle { get; set; }
+
+    [Parameter]
+    public string? ImageUrl { get; set; }
+
+    [Parameter]
+    public CardImageType ImageType { get; set; }
+
+}

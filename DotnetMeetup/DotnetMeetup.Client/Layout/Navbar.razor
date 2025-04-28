@@ -1,4 +1,7 @@
-﻿@using Microsoft.AspNetCore.Components.Routing
+﻿@using DotnetMeetup.Shared.Enums.UI
+@using DotnetMeetup.Shared.Icon
+@using DotnetMeetup.Shared.Enums.Style
+@using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager _nav
 
@@ -8,9 +11,9 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#dotnetToggler" aria-controls="dotnetToggler" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-
     </div>
-    <div class="collapse navbar-collapse" id="dotnetToggler">
+
+    <div class="collapse navbar-collapse align-items-sm-baseline" id="dotnetToggler">
 
         <div class="navbar-nav ms-md-auto me-md-3">
 
@@ -46,22 +49,25 @@
             </div>
 
         </div>
+        <div class="col-auto mx-4 fs-14 align-baseline">
+            <AuthorizeView>
+                <Authorized>
+                    <NavLink class="link icon-link" href="Account/Manage/">
+                        <Icon IconName="IconFontAwesome.FaPersonBooth"
+                              TIcon="IconFontAwesome"
+                              Vendor="IconVendor.FontAwesomeSolid" FontSize="FontSize.FS20" />
+                        @context.User.Identity?.Name
+                    </NavLink>
+                    <NavLink class="link-purple-200" href="Account/logout">Log Out</NavLink>
+                </Authorized>
+                <NotAuthorized>
+                    <NavLink class="link-purple-200 link" href="Account/Login">Log in</NavLink>
+                </NotAuthorized>
+            </AuthorizeView>
+        </div>
     </div>
 </nav>
 
-<div class="row">
-    <div class="col-auto ms-auto me-3">
-        <AuthorizeView>
-            <Authorized>
-                Hello <NavLink class="link-purple-200" href="Account/Manage/">@context.User.Identity?.Name</NavLink>
-                <NavLink class="link-purple-200" href="Account/logout">Log Out</NavLink>
-            </Authorized>
-            <NotAuthorized>
-                <NavLink class="link-purple-300" href="Account/Login">Log in</NavLink>
-            </NotAuthorized>
-        </AuthorizeView>
-    </div>
-</div>
 @code {
 
     [CascadingParameter]

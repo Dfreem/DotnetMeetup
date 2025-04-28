@@ -40,21 +40,21 @@ h4:focus-visible {
     }
 
     .w-#{$i} {
-        width: calc($i * 1%)
+        min-width: calc($i * 1%);
     }
 
     .h-#{$i} {
-        height: calc($i * 1%)
+        min-height: calc($i * 1%);
     }
 }
 
 @for $i from 1 through 40 {
     .w-#{$i}-em {
-        width: calc($i * 1em)
+        min-width: calc($i * 1em);
     }
 
     .h-#{$i}-em {
-        height: calc($i * 1%)
+        min-height: calc($i * 1em);
     }
 
     .fs-#{calc($i * 2)} {
@@ -66,8 +66,8 @@ h4:focus-visible {
     width: fit-content;
 }
 
-.d-content {
-    display: comntent;
+.d-contents {
+    display: contents;
 }
 
 .d-none {

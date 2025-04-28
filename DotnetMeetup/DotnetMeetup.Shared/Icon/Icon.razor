@@ -1,0 +1,36 @@
+﻿@using DotnetMeetup.Shared.Enums.Style
+@using DotnetMeetup.Shared.Enums.UI
+@using DotnetMeetup.Shared.Extensions
+@typeparam TIcon where TIcon : struct, Enum
+@implements IIcon<TIcon>
+
+<i class="@_css @Color?.ToTextColor() @FontSize.ToKabobCase() @Class"/>
+
+@code {
+    [Parameter]
+    public IconVendor Vendor { get; set; } = IconVendor.Default;
+
+    [Parameter]
+    public TIcon IconName { get; set; } = default!;
+
+    [Parameter]
+    public FontSize FontSize { get; set; }
+
+    [Parameter]
+    public BootstrapColor? Color { get; set; }
+
+    [Parameter]
+    public string Class { get; set; } = "";
+
+    public string CSS { get => _css; set => _css = value; }
+
+    private string _css = "";
+
+    protected override void OnParametersSet()
+    {
+        string prefix = Vendor.Prefix();
+        string iconName = IconName.ToKabobCase<TIcon>();
+        _css = $"{prefix} {iconName}";
+        base.OnParametersSet();
+    }
+}

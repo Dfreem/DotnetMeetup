@@ -1,0 +1,21 @@
+﻿@using DotnetMeetup.Shared.Components.Base
+
+@inherits StyleableBaseComponent
+
+<div class="card-body @Class @(BgColor?.ToBgColor())">
+    @if (CardTitle is not null)
+    {
+        <div class="card-title">
+            @CardTitle
+        </div>
+    }
+    @ChildContent
+</div>
+@code {
+    [Parameter]
+    public string? CardTitle { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+}

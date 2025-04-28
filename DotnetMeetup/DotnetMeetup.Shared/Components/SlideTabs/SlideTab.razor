@@ -1,0 +1,19 @@
+﻿<li class="generic-slide-menu-item @(Active ? "active" : "")"><a class="generic-slide-menu-item-link" @onclick="SelectedAsync">@ChildContent</a></li>
+
+@code {
+    [CascadingParameter]
+    public SlideTabs Tabs { get; set; }
+
+    [Parameter]
+    public string Name { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    private bool Active => Tabs.SelectedTab == Name;
+
+    Task SelectedAsync()
+    {
+        return Tabs.SelectTabAsync(Name);
+    }
+}

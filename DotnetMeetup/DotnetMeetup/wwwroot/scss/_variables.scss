@@ -1,14 +1,24 @@
-﻿
+﻿@use 'sass:color';
+@import "../lib/bootstrap/scss/_functions.scss";
+@import "../lib/bootstrap/scss/_variables.scss";
+@import "../lib/bootstrap/scss/_variables-dark.scss";
+
 $primary: #556b2f;
+$primary-light: #778d5f;
 $secondary: #7053D7;
+$secondary-light: #D5C9FF;
 $tertiary: #f0e68c;
 
-// NAVBAR
-$enable-navbar-shadow: true;
 
-$navbar-shadow: 0px 1px 20px -1px #{$gray-700};
-$navbar-light-color: #{$indigo-100};
-$navbar-light-active-color: #{$yellow-300};
+$front-row-bg: #fffcf0aa;
+//$front-row-bg: color.adjust($secondary-light, $lightness: 8%);
+$front-row-border-color: $secondary-light;
+
+// NAVBAR
+
+$navbar-shadow:  0px 1px 20px -1px $gray-700;
+$navbar-light-color: $indigo-100;
+$navbar-light-active-color: $yellow-300;
 //$navbar-light-hover-color:;
 //$navbar-light-disabled-color:;
 //$navbar-light-icon-color:;
@@ -22,7 +32,7 @@ $navbar-padding-x: .5rem;
 $navbar-nav-link-padding-x: .5rem;
 $navbar-nav-link-padding-y: 4px;
 $navbar-brand-font-size: 18pt;
-$navbar-border-color: #{$indigo-500};
+$navbar-border-color: $indigo-500;
 
 $nav-link-height: 1rem;
 //$navbar-brand-height:;
@@ -35,4 +45,16 @@ $nav-link-height: 1rem;
 //$navbar-toggler-focus-width:;
 //$navbar-toggler-transition:;
 
+// CALENDAR
 
+$calendar-selected: $secondary-light;
+$calendar-red: #e4836c;
+$calendar-blue: #8866FF;
+$calendar-bg:  #bbd7a3;
+$calendar-green:color.adjust($calendar-bg, $lightness: -20%);
+$calendar-border-color: $calendar-green;
+$calendar-border-width: 3px;
+$calendar-border-radius: 4px;
+$calendar-shadow: 1px 1px 10px -1px #C8C8C8;
+
+$theme-colors: map-merge-multiple($theme-colors, $purples, $indigos, $grays, ('primary':$primary, 'secondary': $secondary, 'tertiary': $tertiary, 'secondary-light': $secondary-light));

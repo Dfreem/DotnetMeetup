@@ -1,0 +1,50 @@
+﻿
+@inherits StyleableBaseComponent
+
+<div class="@Class d-flex" style="@Style">
+
+    @if (ShouldValidate)
+    {
+
+        @if (ValidatorFunc is not null && ValidatorFunc())
+        {
+            <span class="valid-message">
+                @Valid
+            </span>
+        }
+        else
+        {
+            <span class="invalid-message">
+                @InValid
+            </span>
+        }
+
+    }
+</div>
+@code {
+    [Parameter, EditorRequired]
+    public Func<bool>? ValidatorFunc { get; set; }
+
+    [Parameter]
+    public bool ShouldValidate { get; set; }
+
+    [Parameter]
+    public RenderFragment? Valid { get; set; }
+
+    [Parameter, EditorRequired]
+    public RenderFragment? InValid { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    bool _isValid;
+
+    public void Validate()
+    {
+        if (ValidatorFunc is not null)
+            _isValid = ValidatorFunc();
+        else
+            _isValid = false;
+    }
+
+}
