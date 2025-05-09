@@ -1,5 +1,56 @@
 ﻿@page "/events"
+@using DotnetMeetup.Shared.Components
+<PageTitle>Events</PageTitle>
+
+<section class="py-5">
+    <div class="container">
+
+        <!-- Header -->
+        <h1 class="mb-4 text-center">Events</h1>
+        <p class="text-center mb-5">
+            We meet monthly for talks, workshops, and casual code jams — both in person and online. 
+            New to .NET? You’re welcome. Curious but unsure? Show up and say hi.
+        </p>
+
+        <!-- Upcoming Events -->
+        <h2 class="mb-3">📅 Upcoming Events</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="bg-light border rounded p-4 text-center">
+                    <em>Calendar coming soon…</em>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <EventCard Title=".NET 8 Deep Dive" DateInfo="Wed, May 15" Location="Eugene Tech Hub" />
+                <EventCard Title="Blazor Components 101" DateInfo="Thu, May 30" Location="Zoom" />
+            </div>
+        </div>
+
+        <!-- Past Events -->
+        <h2 class="mt-5 mb-3">🕰 Past Events</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <EventCard Title="Code Koans and Katas" 
+                           DateInfo="Wed, Apr 23 – 6:00 PM" 
+                           Location="Deschutes Hall Room 220, UO"
+                           Description="Michael Birchmeier guided us through Code Koans and Katas—interactive coding exercises for sharpening skills and deepening understanding." />
+            </div>
+            <div class="col-md-6">
+                <EventCard Title="ASP.NET Core MVC Workshop"
+                           DateInfo="Wed, Mar 12 – 6:00 PM"
+                           Location="Deschutes Hall Room 220, UO"
+                           Description="Presented by Joel Southall, this hands-on intro to ASP.NET Core MVC used EF Core and SQLite. We explored CRUD operations and MVC patterns in a practical .NET session." />
+
+            </div>
+        </div>
+
+        <!-- Call to action -->
+        <p class="mt-4 text-center text-muted">
+            Want to give a talk or suggest a topic? <a href="/contribute">Check out the Contribute page</a> or say hi in Discord.
+        </p>
+    </div>
+</section>
 
 @code {
-
+    // Eventually, load these from a data source.
 }

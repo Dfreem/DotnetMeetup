@@ -1,0 +1,18 @@
+﻿<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title">@Title</h5>
+        <p class="card-text mb-1 text-muted">@DateInfo</p>
+        <p class="card-text">@Location</p>
+        @if (!string.IsNullOrWhiteSpace(Description))
+        {
+            <p class="card-text mt-2">@Description</p>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Event Title";
+    [Parameter] public string DateInfo { get; set; } = "Date";
+    [Parameter] public string Location { get; set; } = "Location";
+    [Parameter] public string? Description { get; set; }
+}
