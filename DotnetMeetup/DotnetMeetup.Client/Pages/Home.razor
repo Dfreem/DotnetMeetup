@@ -2,19 +2,91 @@
 @using DotnetMeetup.Shared.Components.Calendar
 @using DotnetMeetup.Shared.Components.CalendarPicker
 @using DotnetMeetup.Shared.Enums.UI
-@using Microsoft.AspNetCore.Authorization
-@using Microsoft.AspNetCore.Components.Web
 @attribute [StreamRendering]
 
 <PageTitle>Home</PageTitle>
 
-<div class="front-row">
-    <div class="d-flex mx-0 w-100 h-100">
-        <Calendar @bind-SelectedDate="SelectedDate" Class="ms-sm-auto me-sm-5 mt-sm-auto mb-sm-5" />
+<!-- Hero Section -->
+<section class="splash-hero text-center text-white py-5">
+    <div class="container content">
+        <p class="lead mt-2">
+            Whether you're here to contribute, collaborate, or catch a talk —
+            choose your path below.
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap mt-4">
+            <a href="/events" class="btn btn-primary btn-lg">
+                I’m here for the events
+            </a>
+            <a href="#how-it-works" class="btn btn-outline-light btn-lg">
+                Need more info before diving in?
+            </a>
+        </div>
     </div>
-</div>
+</section>
+
+<!-- How It Works -->
+
+<section id="how-it-works" class="py-5 bg-light">
+    <div class="container text-center">
+        <h1 class="mb-4">Welcome to Dotnet Meetup HQ</h1>
+        <p class="mb-5">We’re a community of .NET developers in Eugene, Oregon. Here's what you can do here:</p>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>📅 Find Events</h5>
+                <p>Browse upcoming talks, meetups, and collaborative work sessions.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>🛠 Use the Tools</h5>
+                <p>Check the calendar, jump into the forum, or browse shared resources.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>🤝 Get Involved</h5>
+                <p>Join our dev team, present a talk, or contribute to the site itself.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events + Calendar -->
+
+<section id="upcoming-events" class="py-5">
+    <div class="container">
+        <h2 class="mb-4 text-center">Upcoming Events</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <Calendar SelectedDate="@SelectedDate"
+                          SelectedDateChanged="@OnDateChanged"
+                          class="w-100" />
+
+            </div>
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">TEST .NET 8 Deep Dive</h5>
+                        <p class="card-text">TEST Wed, May 15 @@ Eugene Tech Hub</p>
+                    </div>
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">TEST Blazor Components 101</h5>
+                        <p class="card-text">TEST Thu, May 30 @@ Zoom</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @code {
-    public CalendarDay SelectedDate { get; set; } = new() { Date = DateTime.Today, Colors = CalendarDayColor.Selected };
-}
+    public CalendarDay SelectedDate { get; set; } = new()
+        {
+            Date = DateTime.Today,
+            Colors = CalendarDayColor.Selected
+        };
 
+    private Task OnDateChanged(CalendarDay newDate)
+    {
+        SelectedDate = newDate;
+        return Task.CompletedTask;
+    }
+}

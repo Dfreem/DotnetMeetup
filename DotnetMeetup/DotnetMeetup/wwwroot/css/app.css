@@ -1,4 +1,4 @@
-﻿:root,
+:root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
   --bs-indigo: #6610f2;
@@ -9378,6 +9378,60 @@ h4:focus-visible {
 }
 
 /* #endregion */
+.splash-hero {
+  position: relative;
+  background: url("/images/forrest_mountains.png") center center/cover no-repeat;
+  padding: 6rem 2rem;
+  color: white;
+  text-align: center;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+.splash-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 0;
+}
+.splash-hero .content {
+  position: relative;
+  z-index: 1;
+}
+
+.tagline {
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.home-section {
+  background-color: #f0e68c;
+  padding: 2rem 1.5rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #222;
+}
+
+.home-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 2rem;
+}
+
+.btn.btn-secondary {
+  background-color: #7053D7;
+  color: white;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.btn.btn-secondary:hover {
+  background-color: rgb(80.391509434, 46.6037735849, 200.3962264151);
+}
+
 .front-row {
   --front-row-bg: rgba(255, 252, 240, 0.6666666667);
   --front-row-border-color: #D5C9FF;
@@ -14867,3 +14921,5 @@ h4:focus-visible {
     display: none !important;
   }
 }
+
+/*# sourceMappingURL=app.css.map */
