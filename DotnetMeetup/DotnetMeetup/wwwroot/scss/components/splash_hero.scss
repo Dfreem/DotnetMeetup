@@ -1,9 +1,23 @@
 ﻿.splash-hero {
-    background: linear-gradient(to right, $primary, $secondary);
+    position: relative;
+    background: url('/images/forrest_mountains.png') center center / cover no-repeat;
+    padding: 6rem 2rem;
     color: white;
-    padding: 4rem 2rem;
-    border-radius: 0.5rem;
     text-align: center;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.4); // soft dark overlay for contrast
+        z-index: 0;
+    }
+
+    .content {
+        position: relative;
+        z-index: 1;
+    }
 }
 
 .tagline {
