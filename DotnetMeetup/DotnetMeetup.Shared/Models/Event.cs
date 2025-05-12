@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DotnetMeetup.Data.Models
+namespace DotnetMeetup.Shared.Models
 {
     public class Event
     {
