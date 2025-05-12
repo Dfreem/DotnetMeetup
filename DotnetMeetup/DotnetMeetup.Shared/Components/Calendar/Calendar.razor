@@ -5,6 +5,19 @@
 
 <div class="calendar @Class">
     <div class="container-fluid p-0">
+
+
+        <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+            <button class="btn btn-outline-secondary btn-sm" @onclick="() => IncDecMonth(-1)">
+                ← Previous
+            </button>
+            <strong>@SelectedMonth.ToString("MMMM yyyy")</strong>
+            <button class="btn btn-outline-secondary btn-sm" @onclick="() => IncDecMonth(1)">
+                Next →
+            </button>
+        </div>
+
+
         <div class="row calendar-header mb-2">
             <div class="fw-bolder col">
                 <div class="calendar-header-cell"> Sun </div>
@@ -82,7 +95,8 @@
     public CalendarDay? SelectedDate { get; set; }
 
     [Parameter]
-    public List<Event> Events { get; set; } = new();
+    public List<CalendarEvent> Events { get; set; } = new();
+
 
     [Parameter]
     public EventCallback<CalendarDay> SelectedDateChanged { get; set; }
@@ -150,37 +164,31 @@
                 week = new();
                 Weeks.Add(week);
             }
-            CalendarDay day = new()
-                {
-                    Date = current
-                };
+
+            CalendarDay day = new() { Date = current };
 
             if (SelectedDate is not null && SelectedDate.HasDate && SelectedDate.Date == current)
-            {
                 day.Colors |= CalendarDayColor.Selected;
-            }
 
             if (day.Date.Date == DateTime.Today.Date)
-            {
                 day.Colors |= CalendarDayColor.Green;
-            }
 
+            // 🔥 Add this: mark day if it matches any event
             if (Events?.Any(e => e.Date.Date == current.Date) == true)
-            {
-                day.Colors |= CalendarDayColor.Orange; // Pick any color from your enum
-            }
+                day.Colors |= CalendarDayColor.Blue;
 
             week.Days = week.Days.Append(day).ToArray();
             current = current.AddDays(1);
         }
+
         int weekLength = Weeks[^1].Days.Length;
-        int missingDates = 7 - weekLength;
         for (int i = weekLength; i < 7; i++)
         {
             Weeks[^1].Days = Weeks[^1].Days.Append(new() { Date = current }).ToArray();
             current = current.AddDays(1);
         }
     }
+
 
     private async Task SelectDateAsync(CalendarDay selected)
     {
@@ -216,4 +224,11 @@
         SelectedMonth = SelectedMonth.AddMonths(incriment);
         FillCalendar(SelectedMonth);
     }
+
+    protected override void OnParametersSet()
+    {
+        FillCalendar(SelectedMonth);
+    }
+
+
 }
