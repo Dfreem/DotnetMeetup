@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using DotnetMeetup.Data.Models;
+using DotnetMeetup.Shared.Models;
+
 
 namespace DotnetMeetup.Data
 {

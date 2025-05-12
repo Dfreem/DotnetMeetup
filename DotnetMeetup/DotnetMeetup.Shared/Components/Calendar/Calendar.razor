@@ -1,4 +1,6 @@
 ﻿@using DotnetMeetup.Shared.Components.CalendarPicker
+@using DotnetMeetup.Shared.Models
+
 @inherits StyleableBaseComponent
 
 <div class="calendar @Class">
@@ -80,6 +82,9 @@
     public CalendarDay? SelectedDate { get; set; }
 
     [Parameter]
+    public List<Event> Events { get; set; } = new();
+
+    [Parameter]
     public EventCallback<CalendarDay> SelectedDateChanged { get; set; }
 
     #endregion
@@ -154,10 +159,17 @@
             {
                 day.Colors |= CalendarDayColor.Selected;
             }
+
             if (day.Date.Date == DateTime.Today.Date)
             {
                 day.Colors |= CalendarDayColor.Green;
             }
+
+            if (Events?.Any(e => e.Date.Date == current.Date) == true)
+            {
+                day.Colors |= CalendarDayColor.Orange; // Pick any color from your enum
+            }
+
             week.Days = week.Days.Append(day).ToArray();
             current = current.AddDays(1);
         }

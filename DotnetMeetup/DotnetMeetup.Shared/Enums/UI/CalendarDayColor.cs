@@ -14,7 +14,8 @@ public enum CalendarDayColor
     Green = 1,
     Red = 2,
     Blue = 4,
-    Selected = 8
+    Selected = 8,
+    Orange = 16
 }
 
 
@@ -26,6 +27,7 @@ public static class CalendarDayExtensions
         [CalendarDayColor.Red.ToString()] = "var(--calendar-red)",
         [CalendarDayColor.Blue.ToString()] = "var(--calendar-blue)",
         [CalendarDayColor.Selected.ToString()] = "var(--calendar-selected)",
+        [CalendarDayColor.Orange.ToString()] = "var(--calendar-orange)"
     };
     public static string ToCss(this CalendarDayColor colors)
     {

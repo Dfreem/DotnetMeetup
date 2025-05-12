@@ -1,5 +1,5 @@
 ﻿using DotnetMeetup.Data;
-using DotnetMeetup.Data.Models;
+using DotnetMeetup.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

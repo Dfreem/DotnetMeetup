@@ -1,7 +1,7 @@
 using DotnetMeetup.Components;
 using DotnetMeetup.Components.Account;
 using DotnetMeetup.Data;
-using DotnetMeetup.Data.Models;
+using DotnetMeetup.Shared.Models;
 using DotnetMeetup.Shared.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
