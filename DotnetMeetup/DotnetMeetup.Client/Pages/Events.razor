@@ -1,5 +1,8 @@
 ﻿@page "/events"
 @using DotnetMeetup.Shared.Components
+@using DotnetMeetup.Shared.Models
+@using DotnetMeetup.Shared.Components.Calendar
+
 
 <PageTitle>Events</PageTitle>
 
@@ -89,6 +92,20 @@
             </div>
         }
 
+        <!-- Calendar -->
+        <hr class="my-5" />
+        <h3 class="text-center my-4">📅 Event Calendar</h3>
+
+        @if (events != null)
+        {
+            <div class="row">
+                <div class="col">
+                    <p class="text-muted text-center">Calendar component rendered ✅</p>
+                    <Calendar Events="@calendarEvents" />
+                </div>
+            </div>
+        }
+
     </div>
 </section>
 
@@ -96,12 +113,16 @@
 
 @code {
     private List<EventDto>? events;
+    private List<CalendarEvent> calendarEvents = new();
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             events = await Http.GetFromJsonAsync<List<EventDto>>("api/events");
+            calendarEvents = events
+                .Select(e => new CalendarEvent { Date = e.Date })
+                .ToList();
         }
         catch (Exception ex)
         {
