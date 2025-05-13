@@ -81,45 +81,70 @@
 
 
 <!-- Upcoming Events + Calendar -->
-
-<section id="upcoming-events" class="py-5">
+<!-- Next Meetup Preview -->
+<section id="next-meetup" class="py-5 bg-light">
     <div class="container">
-        <h2 class="mb-4 text-center">Upcoming Events</h2>
-        <div class="row">
-            <div class="col-md-6">
-                <Calendar SelectedDate="@SelectedDate"
-                          SelectedDateChanged="@OnDateChanged"
-                          class="w-100" />
+        <h2 class="mb-4 text-center">Next Meetup</h2>
 
-            </div>
-            <div class="col-md-6">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST .NET 8 Deep Dive</h5>
-                        <p class="card-text">TEST Wed, May 15 @@ Eugene Tech Hub</p>
+        @if (events?.Any() == true)
+        {
+            var next = events
+            .Where(e => e.Date > DateTime.Now)
+            .OrderBy(e => e.Date)
+            .FirstOrDefault();
+
+            if (next is not null)
+            {
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">@next.Title</h5>
+                                <p class="card-text text-muted mb-1">@next.Date.ToString("dddd, MMMM d — h:mm tt")</p>
+                                @if (!string.IsNullOrWhiteSpace(next.Location))
+                                {
+                                    <p class="card-text mb-0">@next.Location</p>
+                                }
+                                <a href="/events" class="btn btn-primary mt-3">View All Events</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <h5 class="card-title">TEST Blazor Components 101</h5>
-                        <p class="card-text">TEST Thu, May 30 @@ Zoom</p>
-                    </div>
-                </div>
-            </div>
-        </div>
+            }
+            else
+            {
+                <p class="text-center text-muted">No upcoming events currently scheduled. Check back soon!</p>
+            }
+        }
+        else
+        {
+            <p class="text-center text-muted">Loading events…</p>
+        }
     </div>
 </section>
 
-@code {
-    public CalendarDay SelectedDate { get; set; } = new()
-        {
-            Date = DateTime.Today,
-            Colors = CalendarDayColor.Selected
-        };
+@inject HttpClient Http
 
-    private Task OnDateChanged(CalendarDay newDate)
+@code {
+    private List<EventDto>? events;
+
+    protected override async Task OnInitializedAsync()
     {
-        SelectedDate = newDate;
-        return Task.CompletedTask;
+        try
+        {
+            events = await Http.GetFromJsonAsync<List<EventDto>>("api/events");
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Failed to load events: {ex.Message}");
+        }
+    }
+
+    public class EventDto
+    {
+        public string Title { get; set; } = "";
+        public string? Description { get; set; }
+        public DateTime Date { get; set; }
+        public string? Location { get; set; }
     }
 }
