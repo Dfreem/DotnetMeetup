@@ -121,8 +121,15 @@
         {
             events = await Http.GetFromJsonAsync<List<EventDto>>("api/events");
             calendarEvents = events
-                .Select(e => new CalendarEvent { Date = e.Date })
+                .Select(e => new CalendarEvent
+                    {
+                        Date = e.Date,
+                        Title = e.Title,
+                        Location = e.Location,
+                        Description = e.Description
+                    })
                 .ToList();
+
         }
         catch (Exception ex)
         {

@@ -47,39 +47,25 @@
             {
                 <div class="row mb-2">
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[0].Colors.ToCss()">
-                            @week.Days[0].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[0])
                     </div>
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[1].Colors.ToCss()">
-                            @week.Days[1].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[1])
                     </div>
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[2].Colors.ToCss()">
-                            @week.Days[2].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[2])
                     </div>
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[3].Colors.ToCss()">
-                            @week.Days[3].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[3])
                     </div>
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[4].Colors.ToCss()">
-                            @week.Days[4].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[4])
                     </div>
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[5].Colors.ToCss()">
-                            @week.Days[5].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[5])
                     </div>
                     <div class="col">
-                        <div class="calendar-day" style="@week.Days[6].Colors.ToCss()">
-                            @week.Days[6].Date.Day
-                        </div>
+                        @RenderDayCell(week.Days[6])
                     </div>
                 </div>
             }
@@ -188,6 +174,26 @@
             current = current.AddDays(1);
         }
     }
+
+    private RenderFragment RenderDayCell(CalendarDay day) => __builder =>
+    {
+    var dayEvents = Events
+        .Where(e => e.Date.Date == day.Date.Date)
+        .ToList();
+
+    var tooltip = string.Join("\n", dayEvents.Select(e =>
+        $"{e.Title} at {e.Date:hh:mm tt}" +
+        (string.IsNullOrWhiteSpace(e.Location) ? "" : $" — {e.Location}")));
+
+    __builder.OpenElement(0, "div");
+    __builder.AddAttribute(1, "class", "calendar-day");
+    __builder.AddAttribute(2, "style", day.Colors.ToCss());
+    if (!string.IsNullOrWhiteSpace(tooltip))
+        __builder.AddAttribute(3, "title", tooltip);
+    __builder.AddContent(4, day.Date.Day);
+    __builder.CloseElement();
+    };
+
 
 
     private async Task SelectDateAsync(CalendarDay selected)
