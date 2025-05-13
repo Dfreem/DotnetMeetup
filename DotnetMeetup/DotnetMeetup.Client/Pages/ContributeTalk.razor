@@ -1,0 +1,78 @@
+﻿@page "/contribute/talk"
+@using DotnetMeetup.Shared.Models
+@inject HttpClient Http
+
+<PageTitle>Contribute a Talk</PageTitle>
+
+<section class="py-5">
+    <div class="container">
+        <h1 class="mb-4 text-center">🎤 Contribute a Talk</h1>
+        <p class="text-center mb-4 text-muted">Fill out this form to propose a talk for an upcoming Eugene .NET Meetup.</p>
+
+        @if (submitted)
+        {
+            <div class="alert alert-success text-center">
+                ✅ Thanks! We'll review your talk and get in touch soon.
+            </div>
+        }
+        else
+        {
+            <EditForm Model="talk" OnValidSubmit="HandleSubmit">
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="mb-3">
+                    <label class="form-label">Your Name</label>
+                    <InputText class="form-control" @bind-Value="talk.Name" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Email Address</label>
+                    <InputText type="email" class="form-control" @bind-Value="talk.Email" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Talk Title</label>
+                    <InputText class="form-control" @bind-Value="talk.TalkTitle" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Talk Description</label>
+                    <InputTextArea class="form-control" @bind-Value="talk.Description" Rows="4" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Anything else you'd like us to know?</label>
+                    <InputTextArea class="form-control" @bind-Value="talk.Notes" Rows="3" />
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Talk</button>
+            </EditForm>
+        }
+    </div>
+</section>
+
+@code {
+    private ContributeTalkDto talk = new();
+    private bool submitted = false;
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/contribute", talk);
+            if (response.IsSuccessStatusCode)
+            {
+                submitted = true;
+            }
+            else
+            {
+                Console.Error.WriteLine("Failed to submit talk: " + response.ReasonPhrase);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine("Error submitting talk: " + ex.Message);
+        }
+    }
+}
